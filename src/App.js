@@ -1,23 +1,79 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import SignUp from './components/SignUp';
+import Home from './components/Home';
+import Login from './components/Login';
+import NavBar from './components/NavBar';
+import Donate from './components/Donate';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { auth, fs } from './config/config';
+import Profile from './components/Profile';
+import Donation from './components/Donation';
+import Object from './components/Object';
+// import Footer from './components/Footer';
 
 function App() {
+  //get current user function
+  const GetCurrentUser = () => {
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          getDoc(doc(fs, 'users', user.uid)).then((snapshot) => {
+            setUser(snapshot.data());
+          });
+        } else {
+          setUser(null);
+        }
+      });
+    }, []);
+
+    return user;
+  };
+  const user = GetCurrentUser();
+  // console.log(user);
+
+  //state of products
+  const [products, setProducts] = useState([]);
+
+  //getting Products function
+  const getProducts = async () => {
+    const productsArray = [];
+    const querySnapshot = await getDocs(collection(fs, 'Products'));
+    querySnapshot.forEach((doc) => {
+      var data = doc.data();
+      data.ID = doc.id;
+      productsArray.push({
+        ...data,
+      });
+      if (productsArray.length === querySnapshot.docs.length) {
+        setProducts(productsArray);
+      }
+      //   console.log();
+    });
+  };
+
+  // console.log(products)
+  useEffect(() => {
+    getProducts();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='loginMain'>
+      <Router>
+      <NavBar user={user}/>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/donate" element={<Donate user={user} />} />
+          <Route path='/profile' element ={<Profile user={user} products={products}/>}/>
+          <Route path='/donation' element ={<Donation user={user} products={products}/>}/>
+          <Route path='/donation/:objId' element ={<Object user={user} products={products}/>}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
