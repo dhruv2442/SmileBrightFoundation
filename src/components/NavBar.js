@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../config/config';
 import { signOut } from '@firebase/auth';
 
-const NavBar = ({ user}) => {
+const NavBar = ({ user,login,setLogin}) => {
   const navigate = useNavigate();
   const [matches, setMatches] = useState(
     window.matchMedia("(min-width: 768px)").matches
   )
 
   const handleLogout = () => {
+    setLogin(false);
     signOut(auth).then(() => {
       navigate('/login');
     });
@@ -51,7 +52,18 @@ const NavBar = ({ user}) => {
               </Link>
               </>
             )}
-            {user && (
+            {user && !login && (
+           <>
+            <Link className='btn btn-primary mx-2 my-2' to='/signup'>
+                signup
+              </Link>
+            
+            <Link className='btn btn-primary mx-2 my-2' to='/login'>
+                login
+              </Link>
+              </>
+            )}
+            {user &&login && (
            <>
            
            <Link className='btn btn-primary mx-2 my-2' to='/donate'>

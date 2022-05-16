@@ -16,6 +16,7 @@ import Object from './components/Object';
 // import Footer from './components/Footer';
 
 function App() {
+  const [login, setLogin] = useState(false);
   //get current user function
   const GetCurrentUser = () => {
     const [user, setUser] = useState(null);
@@ -63,11 +64,11 @@ function App() {
   return (
     <div className='loginMain'>
       <Router>
-      <NavBar user={user}/>
+      <NavBar user={user} login={login} setLogin={setLogin}/>
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setLogin={setLogin} />} />
           <Route path="/donate" element={<Donate user={user} />} />
           <Route path='/profile' element ={<Profile user={user} products={products}/>}/>
           <Route path='/donation' element ={<Donation user={user} products={products}/>}/>
