@@ -42,7 +42,7 @@ const SignUp = () => {
             setErrorMsg('');
             setTimeout(() => {
               setSuccessMsg('');
-              navigate('/login');
+              navigate('/donation');
             }, 3000);
           })
           .catch((error) => setErrorMsg(error.message));

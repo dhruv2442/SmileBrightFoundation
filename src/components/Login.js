@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword } from '@firebase/auth';
 import { Link, useNavigate} from 'react-router-dom';
 // import Footer from './Footer';
 
-const Login = ({setLogin}) => {
+const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -34,7 +34,6 @@ const Login = ({setLogin}) => {
             setErrorMsg('');
             setTimeout(()=>{
                 setSuccessMsg('');
-                setLogin(true);
                 navigate('/donation',{replace:true});
             },3000)
         // ...

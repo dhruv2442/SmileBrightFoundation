@@ -15,8 +15,10 @@ const Object = ({ products }) => {
           </div>
         </div>
         <div className=' col-md-7 col-10 text-light'>
-          <h1>{obj.title}</h1>
-          {obj.details}
+          <h1>{obj.title}:-</h1>
+          <h2 className='text-light'>
+          Details:- {obj.details}
+          </h2>
         <br />
         <br />
         <br />

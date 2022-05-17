@@ -10,7 +10,6 @@ const NavBar = ({ user,login,setLogin}) => {
   )
 
   const handleLogout = () => {
-    setLogin(false);
     signOut(auth).then(() => {
       navigate('/login');
     });
@@ -28,7 +27,7 @@ const NavBar = ({ user,login,setLogin}) => {
         <div className='container-fluid'>
           <Link className='navbar-brand' to='/'>
           {matches && (<h3 className='text-light head-title'>The Smile 🙂 Bright 🔆 Foundation 🌞</h3>)}
-          {!matches && (<h6 className='text-light head-title'>The Smile 🙂 Bright 🔆 Foundation 🌞</h6>)}
+          {!matches && (<h6 className='text-light head-title'>The Smile Bright Foundation</h6>)}
           </Link>
           <button
             type='button'
@@ -52,7 +51,7 @@ const NavBar = ({ user,login,setLogin}) => {
               </Link>
               </>
             )}
-            {user && !login && (
+            {/* {user && !login && (
            <>
             <Link className='btn btn-primary mx-2 my-2' to='/signup'>
                 signup
@@ -62,8 +61,8 @@ const NavBar = ({ user,login,setLogin}) => {
                 login
               </Link>
               </>
-            )}
-            {user &&login && (
+            )} */}
+            {user && (
            <>
            
            <Link className='btn btn-primary mx-2 my-2' to='/donate'>
@@ -77,7 +76,7 @@ const NavBar = ({ user,login,setLogin}) => {
                 logout
               </div>
               <Link className='btn btn-primary mx-2 my-2' to='/profile' title="Profile">
-                {user.Fullname[0]}
+                Profile:- {user.Fullname.split(' ').map(x => x[0]).join('')}
               </Link>
             
               </>
